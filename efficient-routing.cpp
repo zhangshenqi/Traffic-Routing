@@ -1,4 +1,4 @@
-// efficient routing on complex networks.cpp : Defines the entry point for the console application.
+// efficient-routing.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
