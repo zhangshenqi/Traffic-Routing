@@ -7,9 +7,8 @@
 #define MAXN1 1225
 #define MAXN2 100000
 
-
-int N;                              // Number of nodes
-int degree[MAXN1] = { 0 };          // Degree
+int N;                              // ç»“ç‚¹æ•°é‡
+int degree[MAXN1] = { 0 };          // åº¦
 
 
 struct node
@@ -20,34 +19,32 @@ struct node
 
 
 struct node *network_head[MAXN1];
-
-
 struct node *route[MAXN1][MAXN1];
 int route_before[MAXN1];
 
 
-int test_begin[MAXN2];                  //¼ÇÂ¼Ò»¸öµãµÄ²âÊÔÆğµã
-int test_end[MAXN2];                    //¼ÇÂ¼Ò»¸öµãµÄ²âÊÔÖÕµã 
-int test_step[MAXN2] = { 0 };           //¼ÇÂ¼Ò»¸öµãµÄ²âÊÔ×ßµ½µÚ¼¸²½
-int test_now[MAXN2];                    //¼ÇÂ¼Ò»¸öµãµÄ²âÊÔÏÖÔÚµÄÎ»ÖÃ
-bool test_moved[MAXN2] = { 0 };         //¼ÇÂ¼ÔÚÕâ¸öÊ±¼ä¶ÎÄÚÒ»¸ö²âÊÔµãÊÇ·ñÒÑ¾­±»Å²¶¯
-struct node *queue_head[MAXN1];         //Ã¿Ò»¸ö½áµãµÄ¶ÓÁĞ
+int test_begin[MAXN2];                  //Â¼Ã‡Ã‚Â¼Ã’Â»Â¸Ã¶ÂµÃ£ÂµÃ„Â²Ã¢ÃŠÃ”Ã†Ã°ÂµÃ£
+int test_end[MAXN2];                    //Â¼Ã‡Ã‚Â¼Ã’Â»Â¸Ã¶ÂµÃ£ÂµÃ„Â²Ã¢ÃŠÃ”Ã–Ã•ÂµÃ£ 
+int test_step[MAXN2] = { 0 };           //Â¼Ã‡Ã‚Â¼Ã’Â»Â¸Ã¶ÂµÃ£ÂµÃ„Â²Ã¢ÃŠÃ”Ã—ÃŸÂµÂ½ÂµÃšÂ¼Â¸Â²Â½
+int test_now[MAXN2];                    //Â¼Ã‡Ã‚Â¼Ã’Â»Â¸Ã¶ÂµÃ£ÂµÃ„Â²Ã¢ÃŠÃ”ÃÃ–Ã”ÃšÂµÃ„ÃÂ»Ã–Ãƒ
+bool test_moved[MAXN2] = { 0 };         //Â¼Ã‡Ã‚Â¼Ã”ÃšÃ•Ã¢Â¸Ã¶ÃŠÂ±Â¼Ã¤Â¶ÃÃ„ÃšÃ’Â»Â¸Ã¶Â²Ã¢ÃŠÃ”ÂµÃ£ÃŠÃ‡Â·Ã±Ã’Ã‘Â¾Â­Â±Â»Ã…Â²Â¶Â¯
+struct node *queue_head[MAXN1];         //ÃƒÂ¿Ã’Â»Â¸Ã¶Â½Ã¡ÂµÃ£ÂµÃ„Â¶Ã“ÃÃ
 
 
-int R_now;                             //¼ÇÂ¼µ±Ç°ÓĞ¶àÉÙ¸öµãÕıÔÚ²âÊÔ
-int R_before;                          //¼ÇÂ¼Ç°Ò»¸öÊ±¼äÓĞ¶àÉÙ¸öµãÕıÔÚ²âÊÔ
-int R_delta;                           //¼ÇÂ¼Õâ¸öÊ±¼äµãÏà¶ÔÓÚÉÏ¸öÊ±¼äµãµÄ²îÖµ
-int R1;                                //¼ÇÂ¼Ê±¼ä1ÓĞ¶àÉÙ¸öµãÕıÔÚ²âÊÔ
-int R2;                                //¼ÇÂ¼Ê±¼ä2ÓĞ¶àÉÙ¸öµãÕıÔÚ²âÊÔ
-double H;                              //HÖµ 
+int R_now;                             //Â¼Ã‡Ã‚Â¼ÂµÂ±Ã‡Â°Ã“ÃÂ¶Ã Ã‰Ã™Â¸Ã¶ÂµÃ£Ã•Ã½Ã”ÃšÂ²Ã¢ÃŠÃ”
+int R_before;                          //Â¼Ã‡Ã‚Â¼Ã‡Â°Ã’Â»Â¸Ã¶ÃŠÂ±Â¼Ã¤Ã“ÃÂ¶Ã Ã‰Ã™Â¸Ã¶ÂµÃ£Ã•Ã½Ã”ÃšÂ²Ã¢ÃŠÃ”
+int R_delta;                           //Â¼Ã‡Ã‚Â¼Ã•Ã¢Â¸Ã¶ÃŠÂ±Â¼Ã¤ÂµÃ£ÃÃ Â¶Ã”Ã“ÃšÃ‰ÃÂ¸Ã¶ÃŠÂ±Â¼Ã¤ÂµÃ£ÂµÃ„Â²Ã®Ã–Âµ
+int R1;                                //Â¼Ã‡Ã‚Â¼ÃŠÂ±Â¼Ã¤1Ã“ÃÂ¶Ã Ã‰Ã™Â¸Ã¶ÂµÃ£Ã•Ã½Ã”ÃšÂ²Ã¢ÃŠÃ”
+int R2;                                //Â¼Ã‡Ã‚Â¼ÃŠÂ±Â¼Ã¤2Ã“ÃÂ¶Ã Ã‰Ã™Â¸Ã¶ÂµÃ£Ã•Ã½Ã”ÃšÂ²Ã¢ÃŠÃ”
+double H;                              //HÃ–Âµ 
 
 
-FILE *fp1 = fopen("R_delta.txt", "w");                     //Ğ´ÈëÎÄ¼şÖĞ 
+FILE *fp1 = fopen("R_delta.txt", "w");                     //ÃÂ´ÃˆÃ«ÃÃ„Â¼Ã¾Ã–Ã 
 FILE *fp2 = fopen("process.txt", "w");
 FILE *fp3 = fopen("R.txt", "w");
 FILE *fp4 = fopen("H.txt", "w");
 
-//½«ÍøÂçÖĞÁ½¸ö½áµãÁ¬½Ó
+//Â½Â«ÃÃ¸Ã‚Ã§Ã–ÃÃÂ½Â¸Ã¶Â½Ã¡ÂµÃ£ÃÂ¬Â½Ã“
 void network_connect(int node1, int node2)
 {
 	struct node *p;
@@ -63,12 +60,12 @@ void network_connect(int node1, int node2)
 }
 
 
-//¹¹ÔìlatticeÍøÂç 
+//Â¹Â¹Ã”Ã¬latticeÃÃ¸Ã‚Ã§ 
 void create_lattice()
 {
 	int i, j;
 	int size;
-	printf("ÇëÊäÈë±ß³¤£º\n");
+	printf("Ã‡Ã«ÃŠÃ¤ÃˆÃ«Â±ÃŸÂ³Â¤Â£Âº\n");
 	scanf("%d", &size);
 //	size = 35;
 	N = size*size;
@@ -104,19 +101,19 @@ void create_lattice()
 }
 
 
-//¹¹ÔìBAÍøÂç
+//Â¹Â¹Ã”Ã¬BAÃÃ¸Ã‚Ã§
 void create_BA()
 {
 	int i, j, k;
-	int n0, nt, nc;       //Ô­Ê¼½áµãÊı£¬Ôö¼ÓµÄ½áµãÊı£¬ĞÂÔö¼ÓµÄ½áµãÓëÔ­½áµãµÄÁ¬±ßÊı
-//	printf("ÇëÊäÈëÔ­Ê¼½áµãÊı£¬Ôö¼ÓµÄ½áµãÊı£¬ĞÂÔö¼ÓµÄ½áµãÓëÔ­½áµãµÄÁ¬±ßÊı£º\n");
+	int n0, nt, nc;       //Ã”Â­ÃŠÂ¼Â½Ã¡ÂµÃ£ÃŠÃ½Â£Â¬Ã”Ã¶Â¼Ã“ÂµÃ„Â½Ã¡ÂµÃ£ÃŠÃ½Â£Â¬ÃÃ‚Ã”Ã¶Â¼Ã“ÂµÃ„Â½Ã¡ÂµÃ£Ã“Ã«Ã”Â­Â½Ã¡ÂµÃ£ÂµÃ„ÃÂ¬Â±ÃŸÃŠÃ½
+//	printf("Ã‡Ã«ÃŠÃ¤ÃˆÃ«Ã”Â­ÃŠÂ¼Â½Ã¡ÂµÃ£ÃŠÃ½Â£Â¬Ã”Ã¶Â¼Ã“ÂµÃ„Â½Ã¡ÂµÃ£ÃŠÃ½Â£Â¬ÃÃ‚Ã”Ã¶Â¼Ã“ÂµÃ„Â½Ã¡ÂµÃ£Ã“Ã«Ã”Â­Â½Ã¡ÂµÃ£ÂµÃ„ÃÂ¬Â±ÃŸÃŠÃ½Â£Âº\n");
 //	scanf("%d%d%d", &n0, &nt, &nc);
 	n0 = 5;
 	nt = 1220;
 	nc = 2;
 	N = n0 + nt;
 
-	//³õÊ¼»¯BAÍøÂç
+	//Â³ÃµÃŠÂ¼Â»Â¯BAÃÃ¸Ã‚Ã§
 	for(i=0;i<n0;i++)
 		for (j = 0; j < i; j++)
 		{
@@ -128,14 +125,14 @@ void create_BA()
 	srand((unsigned)time(NULL));
 	for (i = n0; i < N; i++)
 	{
-		bool connected[MAXN1] = { 0 };       //·ÀÖ¹ÖØ¸´Á¬±ß
-		int denominator = 0;       //ÒÑ´æÔÚ½áµãµÄ¶ÈÊıÖ®ºÍ
+		bool connected[MAXN1] = { 0 };       //Â·Ã€Ã–Â¹Ã–Ã˜Â¸Â´ÃÂ¬Â±ÃŸ
+		int denominator = 0;       //Ã’Ã‘Â´Ã¦Ã”ÃšÂ½Ã¡ÂµÃ£ÂµÃ„Â¶ÃˆÃŠÃ½Ã–Â®ÂºÃ
 		for (j = 0; j < i; j++) denominator += degree[j];
 
 		j = 0;
 		while (j < nc)
 		{
-			double threshold, probability;    //ãĞÖµ£¬Ëæ»úÉú³ÉµÄ¸ÅÂÊ
+			double threshold, probability;    //Ã£ÃÃ–ÂµÂ£Â¬Ã‹Ã¦Â»ÃºÃ‰ÃºÂ³Ã‰ÂµÃ„Â¸Ã…Ã‚ÃŠ
 			bool flag;
 			threshold = 0;
 			flag = 1;
@@ -163,12 +160,12 @@ void create_BA()
 }
 
 
-//Êä³öÍøÂç
+//ÃŠÃ¤Â³Ã¶ÃÃ¸Ã‚Ã§
 void print_network()
 {
 	int i;
 	struct node *p;
-	printf("\nÊä³öÍøÂç£º\n");
+	printf("\nÃŠÃ¤Â³Ã¶ÃÃ¸Ã‚Ã§Â£Âº\n");
 	for (i = 0; i < N; i++)
 	{
 		p = network_head[i];
@@ -183,16 +180,16 @@ void print_network()
 }
 
 
-//Êä³öÓë¶ÈÓĞ¹ØµÄÊıÖµ
+//ÃŠÃ¤Â³Ã¶Ã“Ã«Â¶ÃˆÃ“ÃÂ¹Ã˜ÂµÃ„ÃŠÃ½Ã–Âµ
 void print_degree()
 {
 	int i;
-	printf("\nÊä³ö¸÷¸ö½áµãµÄ¶È£º\n");
+	printf("\nÃŠÃ¤Â³Ã¶Â¸Ã·Â¸Ã¶Â½Ã¡ÂµÃ£ÂµÃ„Â¶ÃˆÂ£Âº\n");
 	for (i = 0; i < N; i++) printf("%d\n", degree[i]);
 }
 
 
-//½«½áµã´æ´¢ÖÁsequenceÁ´±íÖĞ
+//Â½Â«Â½Ã¡ÂµÃ£Â´Ã¦Â´Â¢Ã–ÃsequenceÃÂ´Â±Ã­Ã–Ã
 struct node *sequence_in(struct node *sequence,int node)
 {
 	struct node *p;
@@ -204,7 +201,7 @@ struct node *sequence_in(struct node *sequence,int node)
 }
 
 
-//½«sequenceÁ´±íÉ¾³ı
+//Â½Â«sequenceÃÂ´Â±Ã­Ã‰Â¾Â³Ã½
 void sequence_destroy(struct node *sequence)
 {
 	struct node *p, *q;
@@ -218,7 +215,7 @@ void sequence_destroy(struct node *sequence)
 }
 
 
-//Êä³öÁ´±í
+//ÃŠÃ¤Â³Ã¶ÃÂ´Â±Ã­
 void print_sequence(struct node *sequence)
 {
 	struct node *p;
@@ -232,14 +229,14 @@ void print_sequence(struct node *sequence)
 }
 
 
-//±éÀúÃ¿ÕÒµ½Ò»¸öµãºó£¬»ØËİ£¬²¢½«ÕâÌõÂ·¾¶´æ´¢
+//Â±Ã©Ã€ÃºÃƒÂ¿Ã•Ã’ÂµÂ½Ã’Â»Â¸Ã¶ÂµÃ£ÂºÃ³Â£Â¬Â»Ã˜Ã‹ÃÂ£Â¬Â²Â¢Â½Â«Ã•Ã¢ÃŒÃµÃ‚Â·Â¾Â¶Â´Ã¦Â´Â¢
 void route_retrieve(int begin, int end)
 {
 	int i;
 	int level[MAXN1] = { 0 };
 	int count = 0;
 
-	//Éú³Élevel
+	//Ã‰ÃºÂ³Ã‰level
 	i = end;
 	while (i != begin)
 	{
@@ -254,7 +251,7 @@ void route_retrieve(int begin, int end)
 		i = route_before[i];
 	}
 
-	//ÓÃsequence½«Â·¾¶´æ´¢
+	//Ã“ÃƒsequenceÂ½Â«Ã‚Â·Â¾Â¶Â´Ã¦Â´Â¢
 	int sequence[MAXN1];
 	sequence[0] = begin;
 	i = end;
@@ -264,7 +261,7 @@ void route_retrieve(int begin, int end)
 		i = route_before[i];
 	}
 
-	//ÓÃrouteÁ´±í½«Â·¾¶´æ´¢
+	//Ã“ÃƒrouteÃÂ´Â±Ã­Â½Â«Ã‚Â·Â¾Â¶Â´Ã¦Â´Â¢
 	struct node *p, *q;
 	route[begin][end] = NULL;
 	for (i = 1; i < level[end]; i++)
@@ -286,24 +283,23 @@ void route_retrieve(int begin, int end)
 }
 
 
-//¹ã¶ÈÓÅÏÈ±éÀúÉú³É×î¶ÌÂ·¾¶
+//Â¹Ã£Â¶ÃˆÃ“Ã…ÃÃˆÂ±Ã©Ã€ÃºÃ‰ÃºÂ³Ã‰Ã—Ã®Â¶ÃŒÃ‚Â·Â¾Â¶
 void route_BFS()
 {
-	int begin;         //Ã¿Ò»ÌõÂ·¾¶µÄÆğµã
+	int begin;         //ÃƒÂ¿Ã’Â»ÃŒÃµÃ‚Â·Â¾Â¶ÂµÃ„Ã†Ã°ÂµÃ£
 	for (begin = 0; begin < N; begin++)
 	{
 		struct node *p, *q;    
-		struct node *sequence1, *sequence2;  //ÓÃÀ´´æ´¢ÏÂÒ»²ãµÄ½áµã
-		struct node *sequence_before[MAXN1];  //ÓÃÀ´´æ´¢¿Éµ½´ïÄ³Ò»¸ö½áµãµÄËùÓĞ½áµã
-		int before_sum[MAXN1] = { 0 };     //ÓÃÀ´´æ´¢¿Éµ½´ïÄ³Ò»¸ö½áµãµÄËùÓĞ½áµã×ÜÊı
+		struct node *sequence1, *sequence2;  //Ã“ÃƒÃ€Â´Â´Ã¦Â´Â¢ÃÃ‚Ã’Â»Â²Ã£ÂµÃ„Â½Ã¡ÂµÃ£
+		struct node *sequence_before[MAXN1];  //Ã“ÃƒÃ€Â´Â´Ã¦Â´Â¢Â¿Ã‰ÂµÂ½Â´Ã¯Ã„Â³Ã’Â»Â¸Ã¶Â½Ã¡ÂµÃ£ÂµÃ„Ã‹Ã¹Ã“ÃÂ½Ã¡ÂµÃ£
+		int before_sum[MAXN1] = { 0 };     //Ã“ÃƒÃ€Â´Â´Ã¦Â´Â¢Â¿Ã‰ÂµÂ½Â´Ã¯Ã„Â³Ã’Â»Â¸Ã¶Â½Ã¡ÂµÃ£ÂµÃ„Ã‹Ã¹Ã“ÃÂ½Ã¡ÂµÃ£Ã—ÃœÃŠÃ½
 		bool flag = 1;
-		bool visited[MAXN1] = { 0 };     //×ö±ê¼Ç
-		int route_sum[MAXN1] = { 0 };    //´ÓÆğµãµ½Ä³µãµÄ×î¶ÌÂ·¾¶Êı
-		int level[MAXN1] = { 0 };      //ËùÔÚ²ãÊı
-		int level_count = 1;       //¼ÇÂ¼²ãÊı
+		bool visited[MAXN1] = { 0 };     //Ã—Ã¶Â±ÃªÂ¼Ã‡
+		int route_sum[MAXN1] = { 0 };    //Â´Ã“Ã†Ã°ÂµÃ£ÂµÂ½Ã„Â³ÂµÃ£ÂµÃ„Ã—Ã®Â¶ÃŒÃ‚Â·Â¾Â¶ÃŠÃ½
+		int level[MAXN1] = { 0 };      //Ã‹Ã¹Ã”ÃšÂ²Ã£ÃŠÃ½
+		int level_count = 1;       //Â¼Ã‡Ã‚Â¼Â²Ã£ÃŠÃ½
 
-
-		//³õÊ¼»¯
+		//Â³ÃµÃŠÂ¼Â»Â¯
 		visited[begin] = 1;
 		p = network_head[begin];
 		sequence1 = NULL;
@@ -322,20 +318,20 @@ void route_BFS()
 			p = p->next;
 		}
 
-		//±éÀú
+		//Â±Ã©Ã€Ãº
 		while (flag == 1)
 		{
 			int i;
-			int step;   //Ëæ»ú»¯Â·¾¶£¬sequence_beforeÖ¸Õë¸Ã×ßµÄ²½Êı
+			int step;   //Ã‹Ã¦Â»ÃºÂ»Â¯Ã‚Â·Â¾Â¶Â£Â¬sequence_beforeÃ–Â¸Ã•Ã«Â¸ÃƒÃ—ÃŸÂµÃ„Â²Â½ÃŠÃ½
 			flag = 0;
-			level_count++;     //²ãÊıÔö¼Ó
+			level_count++;     //Â²Ã£ÃŠÃ½Ã”Ã¶Â¼Ã“
 			q = sequence1;
 			while (q != NULL)
 			{
 				p = network_head[q->num];
 				while (p != NULL)
 				{
-					if (visited[p->num] == 0)     //Èç¹ûÊÇ»¹Ã»ÓĞ·ÃÎÊ¹ıµÄ½áµã
+					if (visited[p->num] == 0)     //ÃˆÃ§Â¹Ã»ÃŠÃ‡Â»Â¹ÃƒÂ»Ã“ÃÂ·ÃƒÃÃŠÂ¹Ã½ÂµÃ„Â½Ã¡ÂµÃ£
 					{
 						flag = 1;
 						sequence2 = sequence_in(sequence2, p->num);
@@ -346,7 +342,7 @@ void route_BFS()
 						before_sum[p->num]++;
 					}
 					else
-						if (level[p->num] == level_count)    //Èç¹ûÊÇÍ¬Ò»²ãÒÑ¾­·ÃÎÊ¹ıµÄ½áµã
+						if (level[p->num] == level_count)    //ÃˆÃ§Â¹Ã»ÃŠÃ‡ÃÂ¬Ã’Â»Â²Ã£Ã’Ã‘Â¾Â­Â·ÃƒÃÃŠÂ¹Ã½ÂµÃ„Â½Ã¡ÂµÃ£
 						{
 							route_sum[p->num] += route_sum[q->num];
 							sequence_before[p->num] = sequence_in(sequence_before[p->num], q->num);
@@ -357,7 +353,7 @@ void route_BFS()
 				q = q->next;
 			}
 
-			//Ëæ»úÉú³ÉÂ·¾¶£¬²¢½øĞĞ»ØËİ
+			//Ã‹Ã¦Â»ÃºÃ‰ÃºÂ³Ã‰Ã‚Â·Â¾Â¶Â£Â¬Â²Â¢Â½Ã¸ÃÃÂ»Ã˜Ã‹Ã
 			p = sequence2;
 			while (p != NULL)
 			{
@@ -372,7 +368,7 @@ void route_BFS()
 				p = p->next;
 			}
 
-			//¶Ôsequence1ºÍsequence2½øĞĞ´¦Àí
+			//Â¶Ã”sequence1ÂºÃsequence2Â½Ã¸ÃÃÂ´Â¦Ã€Ã­
 			sequence_destroy(sequence1);
 			sequence1 = sequence2;
 			sequence2 = NULL;
@@ -381,13 +377,13 @@ void route_BFS()
 }
 
 
-//ÀûÓÃdijkstraËã·¨ÕÒµ½ÓĞĞ§Â·¾¶
+//Ã€Ã»Ã“ÃƒdijkstraÃ‹Ã£Â·Â¨Ã•Ã’ÂµÂ½Ã“ÃÃÂ§Ã‚Â·Â¾Â¶
 void route_dijkstra()
 {
 	int i;
-	int begin;      //Æğµã
-	int now;               //µ±Ç°ËùÔÚµÄ½áµã
-	int count;             //ÒÑ¾­±éÀú¹ıµÄ½áµãÊı
+	int begin;      //Ã†Ã°ÂµÃ£
+	int now;               //ÂµÂ±Ã‡Â°Ã‹Ã¹Ã”ÃšÂµÃ„Â½Ã¡ÂµÃ£
+	int count;             //Ã’Ã‘Â¾Â­Â±Ã©Ã€ÃºÂ¹Ã½ÂµÃ„Â½Ã¡ÂµÃ£ÃŠÃ½
 	bool visited[MAXN1];
 	struct node*p;
 
@@ -395,7 +391,7 @@ void route_dijkstra()
 	{
 		int distance[MAXN1];
 
-		//³õÊ¼»¯
+		//Â³ÃµÃŠÂ¼Â»Â¯
 		for (i = 0; i < N; i++) visited[i] = 0;
 		visited[begin] = 1;
 		for (i = 0; i < N; i++) distance[i] = MAXN2;
@@ -403,19 +399,19 @@ void route_dijkstra()
 		count = 1;
 		now = begin;
 
-		//±éÀú
+		//Â±Ã©Ã€Ãº
 		while (count <= N)
 		{
-			struct node *sequence_next;   //ÓÃÀ´´æ´¢Âú×ãÒªÇóµÄÏÂÒ»¸öµã
-			int next_sum = 0;    //¼ÇÂ¼Âú×ãÒªÇóµÄÏÂÒ»¸öµãµÄÊıÄ¿ 
-			int min_k = MAXN2;    //×îĞ¡µÄ¶ÈÊı
-			int step;   //Ëæ»ú»¯ÏÂÒ»¸öµã£¬Ö¸Õë¸Ã×ßµÄ²½Êı
+			struct node *sequence_next;   //Ã“ÃƒÃ€Â´Â´Ã¦Â´Â¢Ã‚ÃºÃ—Ã£Ã’ÂªÃ‡Ã³ÂµÃ„ÃÃ‚Ã’Â»Â¸Ã¶ÂµÃ£
+			int next_sum = 0;    //Â¼Ã‡Ã‚Â¼Ã‚ÃºÃ—Ã£Ã’ÂªÃ‡Ã³ÂµÃ„ÃÃ‚Ã’Â»Â¸Ã¶ÂµÃ£ÂµÃ„ÃŠÃ½Ã„Â¿ 
+			int min_k = MAXN2;    //Ã—Ã®ÃÂ¡ÂµÃ„Â¶ÃˆÃŠÃ½
+			int step;   //Ã‹Ã¦Â»ÃºÂ»Â¯ÃÃ‚Ã’Â»Â¸Ã¶ÂµÃ£Â£Â¬Ã–Â¸Ã•Ã«Â¸ÃƒÃ—ÃŸÂµÃ„Â²Â½ÃŠÃ½
 
-			//³õÊ¼»¯
+			//Â³ÃµÃŠÂ¼Â»Â¯
 			sequence_next = NULL;
 			p = network_head[now];
 
-			//¸üĞÂ¾àÀë
+			//Â¸Ã¼ÃÃ‚Â¾Ã Ã€Ã«
 			while (p != NULL)
 			{
 				if (visited[p->num] == 0 && degree[p->num] + distance[now] < distance[p->num])
@@ -426,7 +422,7 @@ void route_dijkstra()
 				p = p->next;
 			}
 			
-			//Ñ°ÕÒÒ»ÏÂ¸öµã
+			//Ã‘Â°Ã•Ã’Ã’Â»ÃÃ‚Â¸Ã¶ÂµÃ£
 			for (i = 0; i < N; i++)
 			{
 				if (visited[i] == 0&&distance[i] < MAXN2)
@@ -468,11 +464,11 @@ void route_dijkstra()
 }
 
 
-//Êä³öËùÓĞÂ·¾¶
+//ÃŠÃ¤Â³Ã¶Ã‹Ã¹Ã“ÃÃ‚Â·Â¾Â¶
 void print_route()
 {
 	int i, j;
-	printf("\nÊä³öËùÓĞÂ·¾¶£º\n");
+	printf("\nÃŠÃ¤Â³Ã¶Ã‹Ã¹Ã“ÃÃ‚Â·Â¾Â¶Â£Âº\n");
 	for (i = 0; i<N; i++)
 		for (j = 0; j<N; j++)
 			if (i != j)
@@ -490,7 +486,7 @@ void print_route()
 }
 
 
-//Í³¼Æ¾­¹ıÃ¿Ò»¸öµãµÄÂ·¾¶×ÜÊı£¬°üÀ¨Æğµã£¬²»°üÀ¨ÖÕµã
+//ÃÂ³Â¼Ã†Â¾Â­Â¹Ã½ÃƒÂ¿Ã’Â»Â¸Ã¶ÂµÃ£ÂµÃ„Ã‚Â·Â¾Â¶Ã—ÃœÃŠÃ½Â£Â¬Â°Ã¼Ã€Â¨Ã†Ã°ÂµÃ£Â£Â¬Â²Â»Â°Ã¼Ã€Â¨Ã–Ã•ÂµÃ£
 void print_distribution()
 {
 	int i, j;
@@ -516,8 +512,8 @@ void print_distribution()
 }
 
 
-//Èë¶Ó
-void queue_in(int ii, int num)    //ii±íÊ¾ÍøÂçÖĞ½áµãĞòºÅ£¬num±íÊ¾ÒªÈë¶ÓµÄ²âÊÔµãĞòºÅ
+//ÃˆÃ«Â¶Ã“
+void queue_in(int ii, int num)    //iiÂ±Ã­ÃŠÂ¾ÃÃ¸Ã‚Ã§Ã–ÃÂ½Ã¡ÂµÃ£ÃÃ²ÂºÃ…Â£Â¬numÂ±Ã­ÃŠÂ¾Ã’ÂªÃˆÃ«Â¶Ã“ÂµÃ„Â²Ã¢ÃŠÃ”ÂµÃ£ÃÃ²ÂºÃ…
 {
 	struct node *p, *q;
 	p = queue_head[ii];
@@ -540,8 +536,8 @@ void queue_in(int ii, int num)    //ii±íÊ¾ÍøÂçÖĞ½áµãĞòºÅ£¬num±íÊ¾ÒªÈë¶ÓµÄ²âÊÔµãĞ
 }
 
 
-//³ö¶Ó,²¢ÇÒ·µ»Ø³ö¶Ó²âÊÔµãµÄĞòºÅ
-int queue_out(int ii)             //ii±íÊ¾ÍøÂçÖĞµÄ½áµãĞòºÅ
+//Â³Ã¶Â¶Ã“,Â²Â¢Ã‡Ã’Â·ÂµÂ»Ã˜Â³Ã¶Â¶Ã“Â²Ã¢ÃŠÃ”ÂµÃ£ÂµÃ„ÃÃ²ÂºÃ…
+int queue_out(int ii)             //iiÂ±Ã­ÃŠÂ¾ÃÃ¸Ã‚Ã§Ã–ÃÂµÃ„Â½Ã¡ÂµÃ£ÃÃ²ÂºÃ…
 {
 	int num;
 	struct node *p, *q;
@@ -559,7 +555,7 @@ int queue_out(int ii)             //ii±íÊ¾ÍøÂçÖĞµÄ½áµãĞòºÅ
 }
 
 
-//ÕÒµ½Ò»¸öµãµÄ²âÊÔµÄÏÂÒ»¸öµã
+//Ã•Ã’ÂµÂ½Ã’Â»Â¸Ã¶ÂµÃ£ÂµÃ„Â²Ã¢ÃŠÃ”ÂµÃ„ÃÃ‚Ã’Â»Â¸Ã¶ÂµÃ£
 int test_nextnode(int num)
 {
 	struct node *p;
@@ -571,11 +567,11 @@ int test_nextnode(int num)
 }
 
 
-//¶ÔÃ¿Ò»¸ö¶ÓÁĞ½øĞĞ¸üĞÂ
-void test_fresh(int ii)                     //ii±íÊ¾ÍøÂçÖĞµÄ½áµãĞòºÅ
+//Â¶Ã”ÃƒÂ¿Ã’Â»Â¸Ã¶Â¶Ã“ÃÃÂ½Ã¸ÃÃÂ¸Ã¼ÃÃ‚
+void test_fresh(int ii)                     //iiÂ±Ã­ÃŠÂ¾ÃÃ¸Ã‚Ã§Ã–ÃÂµÃ„Â½Ã¡ÂµÃ£ÃÃ²ÂºÃ…
 {
 	int num, nextnode;
-	if (test_moved[queue_head[ii]->num] == 0)      //¸üĞÂµÄÌõ¼şÊÇÁ´±íµÄÊ×¸ö²âÊÔµã»¹Ã»ÓĞÒÆ¶¯¹ı
+	if (test_moved[queue_head[ii]->num] == 0)      //Â¸Ã¼ÃÃ‚ÂµÃ„ÃŒÃµÂ¼Ã¾ÃŠÃ‡ÃÂ´Â±Ã­ÂµÃ„ÃŠÃ—Â¸Ã¶Â²Ã¢ÃŠÃ”ÂµÃ£Â»Â¹ÃƒÂ»Ã“ÃÃ’Ã†Â¶Â¯Â¹Ã½
 	{
 		num = queue_out(ii);
 		nextnode = test_nextnode(num);
@@ -590,12 +586,12 @@ void test_fresh(int ii)                     //ii±íÊ¾ÍøÂçÖĞµÄ½áµãĞòºÅ
 }
 
 
-//½«¶ÓÁĞÁÚ½Ó±íÊä³ö
+//Â½Â«Â¶Ã“ÃÃÃÃšÂ½Ã“Â±Ã­ÃŠÃ¤Â³Ã¶
 void print_queue()
 {
 	int i;
 	struct node *p;
-	fprintf(fp2, "\nÊä³ö¶ÓÁĞÁÚ½Ó±í£º\n");
+	fprintf(fp2, "\nÃŠÃ¤Â³Ã¶Â¶Ã“ÃÃÃÃšÂ½Ã“Â±Ã­Â£Âº\n");
 	for (i = 0; i<N; i++)
 	{
 		p = queue_head[i];
@@ -617,41 +613,41 @@ void print_queue()
 }
 
 
-//½øĞĞ²âÊÔ
+//Â½Ã¸ÃÃÂ²Ã¢ÃŠÃ”
 void test()
 {
-	int i, j;                 //i±íÊ¾Ê±¼äµã£¬j±íÊ¾Ã¿Ò»¸öÊ±¼äµãĞÂ²úÉúµÄ°üµÄĞòºÅ
-	int time;                 //time±íÊ¾²âÊÔÊ±¼ä 
-	int R;                    //µ¥Î»Ê±¼äÄÚ²úÉúµÄ°üµÄÊıÄ¿ 
-	int test_count = 0;       //route_countÓÃÀ´ÎªÂ·¾¶±êºÅ
-//	printf("\nÇëÊäÈë²âÊÔÊ±¼ä£º\n");
+	int i, j;                 //iÂ±Ã­ÃŠÂ¾ÃŠÂ±Â¼Ã¤ÂµÃ£Â£Â¬jÂ±Ã­ÃŠÂ¾ÃƒÂ¿Ã’Â»Â¸Ã¶ÃŠÂ±Â¼Ã¤ÂµÃ£ÃÃ‚Â²ÃºÃ‰ÃºÂµÃ„Â°Ã¼ÂµÃ„ÃÃ²ÂºÃ…
+	int time;                 //timeÂ±Ã­ÃŠÂ¾Â²Ã¢ÃŠÃ”ÃŠÂ±Â¼Ã¤ 
+	int R;                    //ÂµÂ¥ÃÂ»ÃŠÂ±Â¼Ã¤Ã„ÃšÂ²ÃºÃ‰ÃºÂµÃ„Â°Ã¼ÂµÃ„ÃŠÃ½Ã„Â¿ 
+	int test_count = 0;       //route_countÃ“ÃƒÃ€Â´ÃÂªÃ‚Â·Â¾Â¶Â±ÃªÂºÃ…
+//	printf("\nÃ‡Ã«ÃŠÃ¤ÃˆÃ«Â²Ã¢ÃŠÃ”ÃŠÂ±Â¼Ã¤Â£Âº\n");
 //	scanf("%d", &time);
 	time = 5000;
-	printf("\nÇëÊäÈëµ¥Î»Ê±¼äÄÚĞÂ²úÉúµÄ°üµÄÊıÁ¿£º\n");
+	printf("\nÃ‡Ã«ÃŠÃ¤ÃˆÃ«ÂµÂ¥ÃÂ»ÃŠÂ±Â¼Ã¤Ã„ÃšÃÃ‚Â²ÃºÃ‰ÃºÂµÃ„Â°Ã¼ÂµÃ„ÃŠÃ½ÃÂ¿Â£Âº\n");
 	scanf("%d", &R);
 	R_now = 0;
 	R_before = 0;
 
 
-	//Ê±¼ä²»¶Ï¸üĞÂ
+	//ÃŠÂ±Â¼Ã¤Â²Â»Â¶ÃÂ¸Ã¼ÃÃ‚
 	for (i = 0; i<time; i++)
 	{
 		R_before = R_now;
-		//		                                    		fprintf(fp2,"Ê±¼äÎª%d\n", i);
+		//		                                    		fprintf(fp2,"ÃŠÂ±Â¼Ã¤ÃÂª%d\n", i);
 
-		//Ã¿Ò»¸öÊ±¼äµã¿ªÊ¼¶Ôtest_moved½øĞĞ¸üĞÂ
+		//ÃƒÂ¿Ã’Â»Â¸Ã¶ÃŠÂ±Â¼Ã¤ÂµÃ£Â¿ÂªÃŠÂ¼Â¶Ã”test_movedÂ½Ã¸ÃÃÂ¸Ã¼ÃÃ‚
 		for (j = 0; j < test_count; j++) test_moved[j] = 0;
 
 
-		//¶ÔÃ¿Ò»¸ö¶ÓÁĞ½øĞĞ¸üĞÂ
+		//Â¶Ã”ÃƒÂ¿Ã’Â»Â¸Ã¶Â¶Ã“ÃÃÂ½Ã¸ÃÃÂ¸Ã¼ÃÃ‚
 		for (j = 0; j < N; j++)
 			if (queue_head[j] != NULL) test_fresh(j);
 
-		//²úÉúĞÂµÄµã
-		//		                                    		fprintf(fp2,"²úÉúĞÂµÄ²âÊÔµã£º\n");
+		//Â²ÃºÃ‰ÃºÃÃ‚ÂµÃ„ÂµÃ£
+		//		                                    		fprintf(fp2,"Â²ÃºÃ‰ÃºÃÃ‚ÂµÃ„Â²Ã¢ÃŠÃ”ÂµÃ£Â£Âº\n");
 		for (j = 0; j<R; j++)
 		{
-			int begin = 0, end = 0;              //ÆğµãºÍÖÕµã
+			int begin = 0, end = 0;              //Ã†Ã°ÂµÃ£ÂºÃÃ–Ã•ÂµÃ£
 			while (begin == end)
 			{
 				begin = rand() % N;
@@ -670,7 +666,7 @@ void test()
 		//		                                        print_queue();
 		//		                                        fprintf(fp2,"\n");
 	
-		//ÒÔÏÂ³ÌĞò½öÕë¶Ô²âÊÔ£¬È¡µÚ400ºÍ500¸öRÖµ
+		//Ã’Ã”ÃÃ‚Â³ÃŒÃÃ²Â½Ã¶Ã•Ã«Â¶Ã”Â²Ã¢ÃŠÃ”Â£Â¬ÃˆÂ¡ÂµÃš400ÂºÃ500Â¸Ã¶RÃ–Âµ
 		if (i == 4499) R1 = R_now;
 		if (i == 4999) R2 = R_now;
 	}
